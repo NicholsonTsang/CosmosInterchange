@@ -1,12 +1,30 @@
 /* eslint-disable */
 import { Reader, Writer } from 'protobufjs/minimal'
-import { BuyOrderBook } from '../ibcdex/buy_order_book'
+import { DenomTrace } from '../ibcdex/denom_trace'
 import { PageRequest, PageResponse } from '../cosmos/base/query/v1beta1/pagination'
+import { BuyOrderBook } from '../ibcdex/buy_order_book'
 import { SellOrderBook } from '../ibcdex/sell_order_book'
 
 export const protobufPackage = 'username.interchange.ibcdex'
 
 /** this line is used by starport scaffolding # 3 */
+export interface QueryGetDenomTraceRequest {
+  index: string
+}
+
+export interface QueryGetDenomTraceResponse {
+  DenomTrace: DenomTrace | undefined
+}
+
+export interface QueryAllDenomTraceRequest {
+  pagination: PageRequest | undefined
+}
+
+export interface QueryAllDenomTraceResponse {
+  DenomTrace: DenomTrace[]
+  pagination: PageResponse | undefined
+}
+
 export interface QueryGetBuyOrderBookRequest {
   index: string
 }
@@ -39,6 +57,250 @@ export interface QueryAllSellOrderBookRequest {
 export interface QueryAllSellOrderBookResponse {
   SellOrderBook: SellOrderBook[]
   pagination: PageResponse | undefined
+}
+
+const baseQueryGetDenomTraceRequest: object = { index: '' }
+
+export const QueryGetDenomTraceRequest = {
+  encode(message: QueryGetDenomTraceRequest, writer: Writer = Writer.create()): Writer {
+    if (message.index !== '') {
+      writer.uint32(10).string(message.index)
+    }
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetDenomTraceRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseQueryGetDenomTraceRequest } as QueryGetDenomTraceRequest
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.index = reader.string()
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryGetDenomTraceRequest {
+    const message = { ...baseQueryGetDenomTraceRequest } as QueryGetDenomTraceRequest
+    if (object.index !== undefined && object.index !== null) {
+      message.index = String(object.index)
+    } else {
+      message.index = ''
+    }
+    return message
+  },
+
+  toJSON(message: QueryGetDenomTraceRequest): unknown {
+    const obj: any = {}
+    message.index !== undefined && (obj.index = message.index)
+    return obj
+  },
+
+  fromPartial(object: DeepPartial<QueryGetDenomTraceRequest>): QueryGetDenomTraceRequest {
+    const message = { ...baseQueryGetDenomTraceRequest } as QueryGetDenomTraceRequest
+    if (object.index !== undefined && object.index !== null) {
+      message.index = object.index
+    } else {
+      message.index = ''
+    }
+    return message
+  }
+}
+
+const baseQueryGetDenomTraceResponse: object = {}
+
+export const QueryGetDenomTraceResponse = {
+  encode(message: QueryGetDenomTraceResponse, writer: Writer = Writer.create()): Writer {
+    if (message.DenomTrace !== undefined) {
+      DenomTrace.encode(message.DenomTrace, writer.uint32(10).fork()).ldelim()
+    }
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetDenomTraceResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseQueryGetDenomTraceResponse } as QueryGetDenomTraceResponse
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.DenomTrace = DenomTrace.decode(reader, reader.uint32())
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryGetDenomTraceResponse {
+    const message = { ...baseQueryGetDenomTraceResponse } as QueryGetDenomTraceResponse
+    if (object.DenomTrace !== undefined && object.DenomTrace !== null) {
+      message.DenomTrace = DenomTrace.fromJSON(object.DenomTrace)
+    } else {
+      message.DenomTrace = undefined
+    }
+    return message
+  },
+
+  toJSON(message: QueryGetDenomTraceResponse): unknown {
+    const obj: any = {}
+    message.DenomTrace !== undefined && (obj.DenomTrace = message.DenomTrace ? DenomTrace.toJSON(message.DenomTrace) : undefined)
+    return obj
+  },
+
+  fromPartial(object: DeepPartial<QueryGetDenomTraceResponse>): QueryGetDenomTraceResponse {
+    const message = { ...baseQueryGetDenomTraceResponse } as QueryGetDenomTraceResponse
+    if (object.DenomTrace !== undefined && object.DenomTrace !== null) {
+      message.DenomTrace = DenomTrace.fromPartial(object.DenomTrace)
+    } else {
+      message.DenomTrace = undefined
+    }
+    return message
+  }
+}
+
+const baseQueryAllDenomTraceRequest: object = {}
+
+export const QueryAllDenomTraceRequest = {
+  encode(message: QueryAllDenomTraceRequest, writer: Writer = Writer.create()): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim()
+    }
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllDenomTraceRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseQueryAllDenomTraceRequest } as QueryAllDenomTraceRequest
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32())
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryAllDenomTraceRequest {
+    const message = { ...baseQueryAllDenomTraceRequest } as QueryAllDenomTraceRequest
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
+    return message
+  },
+
+  toJSON(message: QueryAllDenomTraceRequest): unknown {
+    const obj: any = {}
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined)
+    return obj
+  },
+
+  fromPartial(object: DeepPartial<QueryAllDenomTraceRequest>): QueryAllDenomTraceRequest {
+    const message = { ...baseQueryAllDenomTraceRequest } as QueryAllDenomTraceRequest
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
+    return message
+  }
+}
+
+const baseQueryAllDenomTraceResponse: object = {}
+
+export const QueryAllDenomTraceResponse = {
+  encode(message: QueryAllDenomTraceResponse, writer: Writer = Writer.create()): Writer {
+    for (const v of message.DenomTrace) {
+      DenomTrace.encode(v!, writer.uint32(10).fork()).ldelim()
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim()
+    }
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllDenomTraceResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseQueryAllDenomTraceResponse } as QueryAllDenomTraceResponse
+    message.DenomTrace = []
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.DenomTrace.push(DenomTrace.decode(reader, reader.uint32()))
+          break
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32())
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryAllDenomTraceResponse {
+    const message = { ...baseQueryAllDenomTraceResponse } as QueryAllDenomTraceResponse
+    message.DenomTrace = []
+    if (object.DenomTrace !== undefined && object.DenomTrace !== null) {
+      for (const e of object.DenomTrace) {
+        message.DenomTrace.push(DenomTrace.fromJSON(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
+    return message
+  },
+
+  toJSON(message: QueryAllDenomTraceResponse): unknown {
+    const obj: any = {}
+    if (message.DenomTrace) {
+      obj.DenomTrace = message.DenomTrace.map((e) => (e ? DenomTrace.toJSON(e) : undefined))
+    } else {
+      obj.DenomTrace = []
+    }
+    message.pagination !== undefined && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined)
+    return obj
+  },
+
+  fromPartial(object: DeepPartial<QueryAllDenomTraceResponse>): QueryAllDenomTraceResponse {
+    const message = { ...baseQueryAllDenomTraceResponse } as QueryAllDenomTraceResponse
+    message.DenomTrace = []
+    if (object.DenomTrace !== undefined && object.DenomTrace !== null) {
+      for (const e of object.DenomTrace) {
+        message.DenomTrace.push(DenomTrace.fromPartial(e))
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination)
+    } else {
+      message.pagination = undefined
+    }
+    return message
+  }
 }
 
 const baseQueryGetBuyOrderBookRequest: object = { index: '' }
@@ -531,6 +793,10 @@ export const QueryAllSellOrderBookResponse = {
 
 /** Query defines the gRPC querier service. */
 export interface Query {
+  /** Queries a denomTrace by index. */
+  DenomTrace(request: QueryGetDenomTraceRequest): Promise<QueryGetDenomTraceResponse>
+  /** Queries a list of denomTrace items. */
+  DenomTraceAll(request: QueryAllDenomTraceRequest): Promise<QueryAllDenomTraceResponse>
   /** Queries a buyOrderBook by index. */
   BuyOrderBook(request: QueryGetBuyOrderBookRequest): Promise<QueryGetBuyOrderBookResponse>
   /** Queries a list of buyOrderBook items. */
@@ -546,6 +812,18 @@ export class QueryClientImpl implements Query {
   constructor(rpc: Rpc) {
     this.rpc = rpc
   }
+  DenomTrace(request: QueryGetDenomTraceRequest): Promise<QueryGetDenomTraceResponse> {
+    const data = QueryGetDenomTraceRequest.encode(request).finish()
+    const promise = this.rpc.request('username.interchange.ibcdex.Query', 'DenomTrace', data)
+    return promise.then((data) => QueryGetDenomTraceResponse.decode(new Reader(data)))
+  }
+
+  DenomTraceAll(request: QueryAllDenomTraceRequest): Promise<QueryAllDenomTraceResponse> {
+    const data = QueryAllDenomTraceRequest.encode(request).finish()
+    const promise = this.rpc.request('username.interchange.ibcdex.Query', 'DenomTraceAll', data)
+    return promise.then((data) => QueryAllDenomTraceResponse.decode(new Reader(data)))
+  }
+
   BuyOrderBook(request: QueryGetBuyOrderBookRequest): Promise<QueryGetBuyOrderBookResponse> {
     const data = QueryGetBuyOrderBookRequest.encode(request).finish()
     const promise = this.rpc.request('username.interchange.ibcdex.Query', 'BuyOrderBook', data)

@@ -10,6 +10,11 @@ import (
 // state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
 	// this line is used by starport scaffolding # genesis/module/init
+	// Set all the denomTrace
+	for _, elem := range genState.DenomTraceList {
+		k.SetDenomTrace(ctx, *elem)
+	}
+
 	// Set all the buyOrderBook
 	for _, elem := range genState.BuyOrderBookList {
 		k.SetBuyOrderBook(ctx, *elem)
@@ -38,6 +43,13 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis := types.DefaultGenesis()
 
 	// this line is used by starport scaffolding # genesis/module/export
+	// Get all denomTrace
+	denomTraceList := k.GetAllDenomTrace(ctx)
+	for _, elem := range denomTraceList {
+		elem := elem
+		genesis.DenomTraceList = append(genesis.DenomTraceList, &elem)
+	}
+
 	// Get all buyOrderBook
 	buyOrderBookList := k.GetAllBuyOrderBook(ctx)
 	for _, elem := range buyOrderBookList {

@@ -1,3 +1,4 @@
+import { DenomTrace } from '../ibcdex/denom_trace';
 import { BuyOrderBook } from '../ibcdex/buy_order_book';
 import { SellOrderBook } from '../ibcdex/sell_order_book';
 import { Writer, Reader } from 'protobufjs/minimal';
@@ -5,6 +6,8 @@ export declare const protobufPackage = "username.interchange.ibcdex";
 /** GenesisState defines the ibcdex module's genesis state. */
 export interface GenesisState {
     /** this line is used by starport scaffolding # genesis/proto/state */
+    denomTraceList: DenomTrace[];
+    /** this line is used by starport scaffolding # genesis/proto/stateField */
     buyOrderBookList: BuyOrderBook[];
     /** this line is used by starport scaffolding # genesis/proto/stateField */
     sellOrderBookList: SellOrderBook[];

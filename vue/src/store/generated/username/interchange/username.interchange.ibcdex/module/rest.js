@@ -169,6 +169,35 @@ export class Api extends HttpClient {
          * No description
          *
          * @tags Query
+         * @name QueryDenomTraceAll
+         * @summary Queries a list of denomTrace items.
+         * @request GET:/username/interchange/ibcdex/denomTrace
+         */
+        this.queryDenomTraceAll = (query, params = {}) => this.request({
+            path: `/username/interchange/ibcdex/denomTrace`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryDenomTrace
+         * @summary Queries a denomTrace by index.
+         * @request GET:/username/interchange/ibcdex/denomTrace/{index}
+         */
+        this.queryDenomTrace = (index, params = {}) => this.request({
+            path: `/username/interchange/ibcdex/denomTrace/${index}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
          * @name QuerySellOrderBookAll
          * @summary Queries a list of sellOrderBook items.
          * @request GET:/username/interchange/ibcdex/sellOrderBook

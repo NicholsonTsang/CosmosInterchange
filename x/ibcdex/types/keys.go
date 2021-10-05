@@ -39,3 +39,7 @@ const (
 const (
 	BuyOrderBookKey = "BuyOrderBook-value-"
 )
+
+const (
+	DenomTraceKey = "DenomTrace-value-"
+)

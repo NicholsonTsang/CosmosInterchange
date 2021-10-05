@@ -4,6 +4,13 @@ export interface IbcdexBuyOrderBook {
     amountDenom?: string;
     priceDenom?: string;
 }
+export interface IbcdexDenomTrace {
+    creator?: string;
+    index?: string;
+    port?: string;
+    channel?: string;
+    origin?: string;
+}
 export declare type IbcdexMsgCancelBuyOrderResponse = object;
 export declare type IbcdexMsgCancelSellOrderResponse = object;
 export declare type IbcdexMsgSendBuyOrderResponse = object;
@@ -11,6 +18,19 @@ export declare type IbcdexMsgSendCreatePairResponse = object;
 export declare type IbcdexMsgSendSellOrderResponse = object;
 export interface IbcdexQueryAllBuyOrderBookResponse {
     BuyOrderBook?: IbcdexBuyOrderBook[];
+    /**
+     * PageResponse is to be embedded in gRPC response messages where the
+     * corresponding request message has used PageRequest.
+     *
+     *  message SomeResponse {
+     *          repeated Bar results = 1;
+     *          PageResponse page = 2;
+     *  }
+     */
+    pagination?: V1Beta1PageResponse;
+}
+export interface IbcdexQueryAllDenomTraceResponse {
+    DenomTrace?: IbcdexDenomTrace[];
     /**
      * PageResponse is to be embedded in gRPC response messages where the
      * corresponding request message has used PageRequest.
@@ -37,6 +57,9 @@ export interface IbcdexQueryAllSellOrderBookResponse {
 }
 export interface IbcdexQueryGetBuyOrderBookResponse {
     BuyOrderBook?: IbcdexBuyOrderBook;
+}
+export interface IbcdexQueryGetDenomTraceResponse {
+    DenomTrace?: IbcdexDenomTrace;
 }
 export interface IbcdexQueryGetSellOrderBookResponse {
     SellOrderBook?: IbcdexSellOrderBook;
@@ -187,6 +210,29 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @request GET:/username/interchange/ibcdex/buyOrderBook/{index}
      */
     queryBuyOrderBook: (index: string, params?: RequestParams) => Promise<HttpResponse<IbcdexQueryGetBuyOrderBookResponse, RpcStatus>>;
+    /**
+     * No description
+     *
+     * @tags Query
+     * @name QueryDenomTraceAll
+     * @summary Queries a list of denomTrace items.
+     * @request GET:/username/interchange/ibcdex/denomTrace
+     */
+    queryDenomTraceAll: (query?: {
+        "pagination.key"?: string;
+        "pagination.offset"?: string;
+        "pagination.limit"?: string;
+        "pagination.countTotal"?: boolean;
+    }, params?: RequestParams) => Promise<HttpResponse<IbcdexQueryAllDenomTraceResponse, RpcStatus>>;
+    /**
+     * No description
+     *
+     * @tags Query
+     * @name QueryDenomTrace
+     * @summary Queries a denomTrace by index.
+     * @request GET:/username/interchange/ibcdex/denomTrace/{index}
+     */
+    queryDenomTrace: (index: string, params?: RequestParams) => Promise<HttpResponse<IbcdexQueryGetDenomTraceResponse, RpcStatus>>;
     /**
      * No description
      *
