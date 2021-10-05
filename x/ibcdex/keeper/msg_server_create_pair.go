@@ -7,11 +7,18 @@ import (
 	clienttypes "github.com/cosmos/cosmos-sdk/x/ibc/core/02-client/types"
 	"github.com/username/interchange/x/ibcdex/types"
 )
+import "errors"
 
 func (k msgServer) SendCreatePair(goCtx context.Context, msg *types.MsgSendCreatePair) (*types.MsgSendCreatePairResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// TODO: logic before transmitting the packet
+	// Cannot create the pair if it already exists
+	pairIndex := types.OrderBookIndex(msg.Port, msg.ChannelID, msg.SourceDenom, msg.TargetDenom)
+	_, found := k.GetSellOrderBook(ctx, pairIndex)
+	if found {
+		return &types.MsgSendCreatePairResponse{}, errors.New("the pair already exist")
+	}
 
 	// Construct the packet
 	var packet types.CreatePairPacketData

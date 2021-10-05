@@ -74,6 +74,17 @@ func (k Keeper) OnRecvCreatePairPacket(ctx sdk.Context, packet channeltypes.Pack
 	}
 
 	// TODO: packet reception logic
+	// Check if the buy order book exists
+	pairIndex := types.OrderBookIndex(packet.SourcePort, packet.SourceChannel, data.SourceDenom, data.TargetDenom)
+	_, found := k.GetBuyOrderBook(ctx, pairIndex)
+	if found {
+		return packetAck, errors.New("the pair already exist")
+	}
+
+	// Set the buy order book
+	book := types.NewBuyOrderBook(data.SourceDenom, data.TargetDenom)
+	book.Index = pairIndex
+	k.SetBuyOrderBook(ctx, book)
 
 	return packetAck, nil
 }
@@ -85,8 +96,6 @@ func (k Keeper) OnAcknowledgementCreatePairPacket(ctx sdk.Context, packet channe
 	case *channeltypes.Acknowledgement_Error:
 
 		// TODO: failed acknowledgement logic
-		_ = dispatchedAck.Error
-
 		return nil
 	case *channeltypes.Acknowledgement_Result:
 		// Decode the packet acknowledgment
@@ -98,6 +107,11 @@ func (k Keeper) OnAcknowledgementCreatePairPacket(ctx sdk.Context, packet channe
 		}
 
 		// TODO: successful acknowledgement logic
+		// Set the sell order book
+		pairIndex := types.OrderBookIndex(packet.SourcePort, packet.SourceChannel, data.SourceDenom, data.TargetDenom)
+		book := types.NewSellOrderBook(data.SourceDenom, data.TargetDenom)
+		book.Index = pairIndex
+		k.SetSellOrderBook(ctx, book)
 
 		return nil
 	default:
