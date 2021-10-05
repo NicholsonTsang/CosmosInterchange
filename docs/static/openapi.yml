@@ -29607,6 +29607,8 @@ definitions:
         type: string
   username.interchange.ibcdex.MsgSendCreatePairResponse:
     type: object
+  username.interchange.ibcdex.MsgSendSellOrderResponse:
+    type: object
   username.interchange.ibcdex.QueryAllBuyOrderBookResponse:
     type: object
     properties:
