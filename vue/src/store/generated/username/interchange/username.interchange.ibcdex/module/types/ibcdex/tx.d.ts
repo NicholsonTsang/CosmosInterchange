@@ -1,6 +1,16 @@
 import { Reader, Writer } from 'protobufjs/minimal';
 export declare const protobufPackage = "username.interchange.ibcdex";
 /** this line is used by starport scaffolding # proto/tx/message */
+export interface MsgCancelBuyOrder {
+    creator: string;
+    port: string;
+    channel: string;
+    amountDenom: string;
+    priceDenom: string;
+    orderID: number;
+}
+export interface MsgCancelBuyOrderResponse {
+}
 export interface MsgCancelSellOrder {
     creator: string;
     port: string;
@@ -45,6 +55,20 @@ export interface MsgSendCreatePair {
 }
 export interface MsgSendCreatePairResponse {
 }
+export declare const MsgCancelBuyOrder: {
+    encode(message: MsgCancelBuyOrder, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCancelBuyOrder;
+    fromJSON(object: any): MsgCancelBuyOrder;
+    toJSON(message: MsgCancelBuyOrder): unknown;
+    fromPartial(object: DeepPartial<MsgCancelBuyOrder>): MsgCancelBuyOrder;
+};
+export declare const MsgCancelBuyOrderResponse: {
+    encode(_: MsgCancelBuyOrderResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgCancelBuyOrderResponse;
+    fromJSON(_: any): MsgCancelBuyOrderResponse;
+    toJSON(_: MsgCancelBuyOrderResponse): unknown;
+    fromPartial(_: DeepPartial<MsgCancelBuyOrderResponse>): MsgCancelBuyOrderResponse;
+};
 export declare const MsgCancelSellOrder: {
     encode(message: MsgCancelSellOrder, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgCancelSellOrder;
@@ -104,6 +128,7 @@ export declare const MsgSendCreatePairResponse: {
 /** Msg defines the Msg service. */
 export interface Msg {
     /** this line is used by starport scaffolding # proto/tx/rpc */
+    CancelBuyOrder(request: MsgCancelBuyOrder): Promise<MsgCancelBuyOrderResponse>;
     CancelSellOrder(request: MsgCancelSellOrder): Promise<MsgCancelSellOrderResponse>;
     SendBuyOrder(request: MsgSendBuyOrder): Promise<MsgSendBuyOrderResponse>;
     SendSellOrder(request: MsgSendSellOrder): Promise<MsgSendSellOrderResponse>;
@@ -112,6 +137,7 @@ export interface Msg {
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
     constructor(rpc: Rpc);
+    CancelBuyOrder(request: MsgCancelBuyOrder): Promise<MsgCancelBuyOrderResponse>;
     CancelSellOrder(request: MsgCancelSellOrder): Promise<MsgCancelSellOrderResponse>;
     SendBuyOrder(request: MsgSendBuyOrder): Promise<MsgSendBuyOrderResponse>;
     SendSellOrder(request: MsgSendSellOrder): Promise<MsgSendSellOrderResponse>;

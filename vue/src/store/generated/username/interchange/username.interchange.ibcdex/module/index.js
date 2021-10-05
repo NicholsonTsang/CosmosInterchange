@@ -3,13 +3,15 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgSendCreatePair } from "./types/ibcdex/tx";
-import { MsgSendBuyOrder } from "./types/ibcdex/tx";
+import { MsgCancelBuyOrder } from "./types/ibcdex/tx";
 import { MsgCancelSellOrder } from "./types/ibcdex/tx";
+import { MsgSendBuyOrder } from "./types/ibcdex/tx";
 import { MsgSendSellOrder } from "./types/ibcdex/tx";
 const types = [
     ["/username.interchange.ibcdex.MsgSendCreatePair", MsgSendCreatePair],
-    ["/username.interchange.ibcdex.MsgSendBuyOrder", MsgSendBuyOrder],
+    ["/username.interchange.ibcdex.MsgCancelBuyOrder", MsgCancelBuyOrder],
     ["/username.interchange.ibcdex.MsgCancelSellOrder", MsgCancelSellOrder],
+    ["/username.interchange.ibcdex.MsgSendBuyOrder", MsgSendBuyOrder],
     ["/username.interchange.ibcdex.MsgSendSellOrder", MsgSendSellOrder],
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -26,8 +28,9 @@ const txClient = async (wallet, { addr: addr } = { addr: "http://localhost:26657
     return {
         signAndBroadcast: (msgs, { fee, memo } = { fee: defaultFee, memo: "" }) => client.signAndBroadcast(address, msgs, fee, memo),
         msgSendCreatePair: (data) => ({ typeUrl: "/username.interchange.ibcdex.MsgSendCreatePair", value: data }),
-        msgSendBuyOrder: (data) => ({ typeUrl: "/username.interchange.ibcdex.MsgSendBuyOrder", value: data }),
+        msgCancelBuyOrder: (data) => ({ typeUrl: "/username.interchange.ibcdex.MsgCancelBuyOrder", value: data }),
         msgCancelSellOrder: (data) => ({ typeUrl: "/username.interchange.ibcdex.MsgCancelSellOrder", value: data }),
+        msgSendBuyOrder: (data) => ({ typeUrl: "/username.interchange.ibcdex.MsgSendBuyOrder", value: data }),
         msgSendSellOrder: (data) => ({ typeUrl: "/username.interchange.ibcdex.MsgSendSellOrder", value: data }),
     };
 };
