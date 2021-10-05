@@ -150,6 +150,7 @@ var (
 		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
+		ibcdextypes.ModuleName:         {authtypes.Minter, authtypes.Burner},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -347,6 +348,7 @@ func New(
 		app.IBCKeeper.ChannelKeeper,
 		&app.IBCKeeper.PortKeeper,
 		scopedIbcdexKeeper,
+		app.BankKeeper,
 	)
 	ibcdexModule := ibcdexmodule.NewAppModule(appCodec, app.IbcdexKeeper)
 
