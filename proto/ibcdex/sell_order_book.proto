@@ -4,10 +4,12 @@ package username.interchange.ibcdex;
 option go_package = "github.com/username/interchange/x/ibcdex/types";
 
 import "gogoproto/gogo.proto";
+import "ibcdex/order.proto";
 
 message SellOrderBook {
   string creator = 1;
   string index = 2;
   string amountDenom = 3; 
-  string priceDenom = 4; 
+  string priceDenom = 4;
+  OrderBook book = 5;
 }
