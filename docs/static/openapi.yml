@@ -29605,6 +29605,8 @@ definitions:
         type: string
       priceDenom:
         type: string
+  username.interchange.ibcdex.MsgSendBuyOrderResponse:
+    type: object
   username.interchange.ibcdex.MsgSendCreatePairResponse:
     type: object
   username.interchange.ibcdex.MsgSendSellOrderResponse:
