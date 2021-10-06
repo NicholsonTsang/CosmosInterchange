@@ -7,6 +7,7 @@ import (
 	clienttypes "github.com/cosmos/cosmos-sdk/x/ibc/core/02-client/types"
 	"github.com/username/interchange/x/ibcdex/types"
 )
+import "errors"
 
 func (k msgServer) SendBuyOrder(goCtx context.Context, msg *types.MsgSendBuyOrder) (*types.MsgSendBuyOrderResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
@@ -49,7 +50,7 @@ func (k msgServer) SendBuyOrder(goCtx context.Context, msg *types.MsgSendBuyOrde
 	packet.Price = msg.Price
 
 	// Transmit the packet
-	err := k.TransmitBuyOrderPacket(
+	err = k.TransmitBuyOrderPacket(
 		ctx,
 		packet,
 		msg.Port,

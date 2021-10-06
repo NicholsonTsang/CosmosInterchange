@@ -6,6 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/username/interchange/x/ibcdex/types"
 )
+import "errors"
 
 func (k msgServer) CancelBuyOrder(goCtx context.Context, msg *types.MsgCancelBuyOrder) (*types.MsgCancelBuyOrderResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
@@ -19,7 +20,7 @@ func (k msgServer) CancelBuyOrder(goCtx context.Context, msg *types.MsgCancelBuy
 	}
 
 	// Check order creator
-	order, err := b.book.GetOrderFromID(msg.OrderID)
+	order, err := b.Book.GetOrderFromID(msg.OrderID)
 	if err != nil {
 		return &types.MsgCancelBuyOrderResponse{}, err
 	}
@@ -28,7 +29,7 @@ func (k msgServer) CancelBuyOrder(goCtx context.Context, msg *types.MsgCancelBuy
 	}
 
 	// Remove order
-	if err := b.book.RemoveOrderFromID(msg.OrderID); err != nil {
+	if err := b.Book.RemoveOrderFromID(msg.OrderID); err != nil {
 		return &types.MsgCancelBuyOrderResponse{}, err
 	}
 	k.SetBuyOrderBook(ctx, b)
